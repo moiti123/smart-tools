@@ -3,534 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Tools Pro - Android 15</title>
+    <title>Smart Tools Ultimate</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #D0BCFF;
             --on-primary: #381E72;
-            --surface: rgba(30, 30, 30, 0.6); /* Glass effect */
-            --surface-active: rgba(50, 50, 50, 0.8);
+            --surface: rgba(30, 30, 30, 0.65);
+            --surface-active: rgba(60, 60, 60, 0.85);
             --background: #121212;
             --text: #E6E1E5;
-            --radius: 24px;
+            --radius: 20px;
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 
         body {
             font-family: 'Heebo', sans-serif;
-            background-color: var(--background);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
+            margin: 0; padding: 15px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: background 0.5s ease;
-            background-attachment: fixed;
-            background-size: cover;
+            display: flex; flex-direction: column; align-items: center;
+            background-attachment: fixed; background-size: cover;
+            color: var(--text);
+            transition: background 0.5s;
         }
 
-        /* Dynamic Background Classes */
-        .bg-1 { background: #121212; }
-        .bg-2 { background: linear-gradient(45deg, #4b6cb7 0%, #182848 100%); }
-        .bg-3 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .bg-4 { background: linear-gradient(to top, #30cfd0 0%, #330867 100%); }
-        .bg-5 { background: conic-gradient(from 180deg at 50% 50%, #2E0049 0deg, #191C47 120deg, #55004D 240deg, #2E0049 360deg); }
+        /* Dynamic Backgrounds */
+        .bg-1 { background: #0f0c29; background: linear-gradient(to right, #24243e, #302b63, #0f0c29); }
+        .bg-2 { background: linear-gradient(to bottom, #323232 0%, #3F5EFB 40%, #FC466B 100%); }
+        .bg-3 { background: linear-gradient(15deg, #13547a 0%, #80d0c7 100%); }
+        .bg-4 { background: radial-gradient(circle at center, #eb3349 0%, #f45c43 100%); }
 
         header {
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
+            width: 100%; max-width: 500px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; z-index: 2;
         }
-
-        h1 { font-weight: 300; font-size: 1.8rem; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-
-        /* Theme Toggle Button */
+        h1 { font-size: 1.6rem; font-weight: 700; margin: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
         .theme-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.2); border: none; width: 40px; height: 40px;
+            border-radius: 50%; cursor: pointer; font-size: 1.2rem; backdrop-filter: blur(5px);
         }
 
         /* Grid */
         .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 500px;
-            padding-bottom: 40px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            width: 100%; max-width: 500px; padding-bottom: 80px;
         }
 
         /* Cards */
         .card {
-            background: var(--surface);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--surface); backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: var(--radius);
-            padding: 20px;
-            height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px 10px;
+            height: 110px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; cursor: pointer; transition: transform 0.15s;
+        }
+        .card:active { transform: scale(0.95); background: var(--surface-active); }
+        .icon { font-size: 2rem; margin-bottom: 8px; }
+        .card h3 { font-size: 0.85rem; margin: 0; font-weight: 400; }
+
+        /* Overlay Tools */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #121212; z-index: 100;
+            transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+        }
+        .overlay.active { transform: translateY(0); }
+        
+        .navbar {
+            padding: 15px; display: flex; align-items: center;
+            background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .back-btn { background: none; border: none; color: white; font-size: 1.5rem; padding: 5px 15px; }
+        .nav-title { font-size: 1.2rem; font-weight: bold; margin-right: 10px; }
+        
+        .content {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative; overflow-y: auto; padding: 20px;
         }
 
-        .card:active { transform: scale(0.96); background: var(--surface-active); }
-
-        .icon-box {
-            width: 50px; height: 50px;
-            background: var(--primary);
-            color: var(--on-primary);
-            border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px;
-        }
-
-        .card h3 { margin: 0; font-weight: 500; font-size: 1.1rem; }
-
-        /* Full Screen Tool View */
-        .tool-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #000;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tool-overlay.open { transform: translateY(0); }
-
-        .tool-nav {
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            background: rgba(20,20,20,0.9);
-        }
-
-        .back-btn {
-            background: transparent; border: none; color: white;
-            font-size: 24px; padding: 10px; cursor: pointer;
-        }
-
-        .tool-body {
-            flex: 1;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .permission-btn {
-            background: var(--primary);
-            color: var(--on-primary);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        /* --- Tool Specific Styles --- */
+        /* --- Specific Tools CSS --- */
+        /* Camera/Mirror */
+        video { width: 100%; height: 100%; object-fit: cover; }
+        .mirror-mode { transform: scaleX(-1); }
 
         /* Level */
-        .level-circle {
-            width: 280px; height: 280px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 50%;
-            position: relative;
-            background: rgba(255,255,255,0.05);
+        .level-box {
+            width: 250px; height: 250px; border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; position: relative; background: rgba(255,255,255,0.05);
         }
-        .level-bubble {
-            width: 50px; height: 50px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.1s ease-out;
-            box-shadow: 0 0 20px var(--primary);
-        }
-        .crosshair {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px; height: 20px;
-            border: 2px solid white; border-radius: 50%;
+        .bubble {
+            width: 40px; height: 40px; background: #00ff88; border-radius: 50%;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px #00ff88;
         }
 
-        /* Compass */
-        .compass-ring {
-            width: 300px; height: 300px;
-            border-radius: 50%;
-            border: 4px solid rgba(255,255,255,0.1);
-            position: relative;
-            transition: transform 0.1s ease-out;
-            background: radial-gradient(circle, #222 60%, #111 100%);
-            display: flex; align-items: center; justify-content: center;
+        /* Ruler */
+        .ruler-container {
+            width: 100%; height: 100%; display: flex; align-items: flex-start;
+            background: #222; position: relative; overflow: hidden;
         }
-        .compass-arrow {
-            width: 0; height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 100px solid red;
-            position: absolute; top: 50px;
-            transform: translateX(-50%); left: 50%;
+        .cm-mark {
+            height: 40%; width: 1px; background: white; position: absolute; top: 0;
         }
-        .compass-label {
-            position: absolute; font-weight: bold; font-size: 1.5rem; color: #fff;
+        .cm-num {
+            position: absolute; top: 45%; color: white; font-size: 0.8rem; transform: translateX(-50%);
         }
-        .n { top: 10px; left: 50%; transform: translateX(-50%); color: red; }
-        .s { bottom: 10px; left: 50%; transform: translateX(-50%); }
-        .e { right: 15px; top: 50%; transform: translateY(-50%); }
-        .w { left: 15px; top: 50%; transform: translateY(-50%); }
-
-        /* Stopwatch */
-        .timer-display { font-size: 4rem; font-variant-numeric: tabular-nums; font-weight: 200; margin-bottom: 30px; }
-        .timer-controls button {
-            width: 80px; height: 80px; border-radius: 50%; border: none;
-            font-size: 1.2rem; font-weight: bold; margin: 0 10px; cursor: pointer;
-        }
-        .btn-start { background: #4CAF50; color: white; }
-        .btn-stop { background: #F44336; color: white; }
-        .btn-reset { background: #555; color: white; }
-
-        /* Noise Meter */
-        .noise-bar {
-            width: 60px;
-            background: linear-gradient(to top, green, yellow, red);
-            border-radius: 30px;
-            transition: height 0.1s;
-            max-height: 300px;
-            box-shadow: 0 0 20px rgba(0,255,0,0.2);
+        .mm-mark {
+            height: 20%; width: 1px; background: rgba(255,255,255,0.5); position: absolute; top: 0;
         }
 
-        /* Flashlight (Screen) */
-        .flashlight-mode { background-color: white !important; }
-        .flashlight-mode * { display: none !important; }
-        .flashlight-btn-close { 
-            display: block !important; 
-            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);
-            background: #333; color: white; padding: 10px 20px; border-radius: 20px; border: none;
+        /* Battery */
+        .battery-shape {
+            width: 120px; height: 200px; border: 8px solid white; border-radius: 20px;
+            padding: 5px; position: relative; display: flex; align-items: flex-end;
+        }
+        .battery-shape:before {
+            content: ''; position: absolute; top: -18px; left: 35px; width: 34px; height: 12px; background: white;
+            border-radius: 4px 4px 0 0;
+        }
+        .battery-fill {
+            width: 100%; background: #00ff88; border-radius: 10px;
+            transition: height 0.5s;
         }
 
-        /* Converter */
-        .converter-box { width: 90%; max-width: 300px; }
-        .converter-box input { 
-            width: 100%; padding: 15px; margin-bottom: 10px; 
-            background: #333; border: none; color: white; font-size: 1.5rem; border-radius: 12px; text-align: center;
+        /* General Buttons */
+        .action-btn {
+            background: var(--primary); color: var(--on-primary);
+            border: none; padding: 15px 30px; border-radius: 30px;
+            font-size: 1.1rem; font-weight: bold; margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .label { text-align: center; display: block; margin-bottom: 5px; color: #aaa; }
+        input, textarea {
+            width: 100%; background: #333; border: none; color: white;
+            padding: 15px; border-radius: 15px; font-size: 1.1rem; margin-bottom: 10px;
+        }
 
     </style>
 </head>
-<body class="bg-1" id="mainBody">
+<body class="bg-1">
 
     <header>
-        <h1>ארגז כלים</h1>
-        <button class="theme-btn" onclick="changeBackground()">🎨</button>
+        <h1>Smart Tools <span style="font-size:0.8rem; opacity:0.7">Ultimate</span></h1>
+        <button class="theme-btn" onclick="toggleTheme()">🎨</button>
     </header>
 
     <div class="grid">
-        <div class="card" onclick="openTool('compass')">
-            <div class="icon-box">🧭</div>
-            <h3>מצפן</h3>
-        </div>
-         <div class="card" onclick="openTool('level')">
-            <div class="icon-box">💧</div>
-            <h3>פלס</h3>
-        </div>
-        <div class="card" onclick="openTool('stopwatch')">
-            <div class="icon-box">⏱️</div>
-            <h3>סטופר</h3>
-        </div>
-        <div class="card" onclick="openTool('noise')">
-            <div class="icon-box">🔊</div>
-            <h3>מד רעש</h3>
-        </div>
-        <div class="card" onclick="openTool('magnifier')">
-            <div class="icon-box">🔍</div>
-            <h3>זכוכית מגדלת</h3>
-        </div>
-        <div class="card" onclick="openTool('converter')">
-            <div class="icon-box">📏</div>
-            <h3>ממיר יחידות</h3>
-        </div>
-         <div class="card" onclick="openTool('notes')">
-            <div class="icon-box">📝</div>
-            <h3>פתקים</h3>
-        </div>
-        <div class="card" onclick="openTool('light')">
-            <div class="icon-box">💡</div>
-            <h3>פנס מסך</h3>
+        <div class="card" onclick="openTool('mirror')"><div class="icon">🪞</div><h3>מראה</h3></div>
+        <div class="card" onclick="openTool('battery')"><div class="icon">🔋</div><h3>סוללה</h3></div>
+        <div class="card" onclick="openTool('ruler')"><div class="icon">📏</div><h3>סרגל</h3></div>
+        
+        <div class="card" onclick="openTool('vibrate')"><div class="icon">📳</div><h3>רטט</h3></div>
+        <div class="card" onclick="openTool('tts')"><div class="icon">🗣️</div><h3>הקראה</h3></div>
+        <div class="card" onclick="openTool('light')"><div class="icon">💡</div><h3>פנס</h3></div>
+
+        <div class="card" onclick="openTool('compass')"><div class="icon">🧭</div><h3>מצפן</h3></div>
+        <div class="card" onclick="openTool('level')"><div class="icon">💧</div><h3>פלס</h3></div>
+        <div class="card" onclick="openTool('magnifier')"><div class="icon">🔍</div><h3>זכוכית</h3></div>
+
+        <div class="card" onclick="openTool('noise')"><div class="icon">🔊</div><h3>רעש</h3></div>
+        <div class="card" onclick="openTool('stopwatch')"><div class="icon">⏱️</div><h3>סטופר</h3></div>
+        <div class="card" onclick="openTool('notes')"><div class="icon">📝</div><h3>פתקים</h3></div>
+    </div>
+
+    <div id="mirror" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('mirror')">➜</button><span class="nav-title">מראה</span></div>
+        <div class="content" style="padding:0; background:black;">
+            <video id="mirrorVideo" autoplay playsinline class="mirror-mode"></video>
         </div>
     </div>
 
-    <div id="compass" class="tool-overlay">
-        <div class="tool-nav"><button class="back-btn" onclick="closeTool('compass')">➜</button><h3>מצפן</h3></div>
-        <div class="tool-body">
-            <button class="permission-btn" id="compass-perm" onclick="requestSensors()">לחץ להפעלת חיישנים</button>
-            <div class="compass-ring" id="compassRing">
-                <span class="compass-label n">N</span>
-                <span class="compass-label e">E</span>
-                <span class="compass-label s">S</span>
-                <span class="compass-label w">W</span>
-                <div class="compass-arrow"></div>
+    <div id="battery" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('battery')">➜</button><span class="nav-title">מצב סוללה</span></div>
+        <div class="content">
+            <div class="battery-shape">
+                <div id="batLevel" class="battery-fill" style="height: 50%;"></div>
             </div>
-            <h2 id="compassHeading" style="margin-top:30px">0°</h2>
+            <h2 id="batText" style="margin-top: 20px; font-size: 2rem;">--%</h2>
+            <p id="batStatus" style="opacity: 0.7;">טוען נתונים...</p>
         </div>
     </div>
 
-    <div id="level" class="tool-overlay">
-        <div class="tool-nav"><button class="back-btn" onclick="closeTool('level')">➜</button><h3>פלס בועה</h3></div>
-        <div class="tool-body">
-            <button class="permission-btn" id="level-perm" onclick="requestSensors()">לחץ להפעלת חיישנים</button>
-            <div class="level-circle">
-                <div class="crosshair"></div>
-                <div id="levelBubble" class="level-bubble"></div>
+    <div id="ruler" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('ruler')">➜</button><span class="nav-title">סרגל (משוער)</span></div>
+        <div class="content" style="padding:0; align-items: flex-start;">
+            <div id="rulerCanvas" class="ruler-container"></div>
+            <p style="position: absolute; bottom: 20px; right: 20px; opacity:0.5; font-size: 0.8rem;">*תלוי בגודל מסך פיזי</p>
+        </div>
+    </div>
+
+    <div id="vibrate" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('vibrate')">➜</button><span class="nav-title">רטט</span></div>
+        <div class="content">
+            <div style="font-size: 5rem;">📳</div>
+            <p>עובד בעיקר באנדרואיד</p>
+            <button class="action-btn" onclick="navigator.vibrate(200)">רטט קצר</button>
+            <button class="action-btn" onclick="navigator.vibrate([100,50,100,50,500])" style="background:#ff4b4b; margin-top:10px;">רטט מקצב</button>
+        </div>
+    </div>
+
+    <div id="tts" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('tts')">➜</button><span class="nav-title">הקראת טקסט</span></div>
+        <div class="content">
+            <textarea id="ttsInput" rows="5" placeholder="כתוב כאן משהו..."></textarea>
+            <button class="action-btn" onclick="speakText()">🔊 הקרא</button>
+        </div>
+    </div>
+
+    <div id="magnifier" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('magnifier')">➜</button><span class="nav-title">זכוכית מגדלת</span></div>
+        <div class="content" style="padding:0; background:black;"><video id="magVideo" autoplay playsinline></video></div>
+    </div>
+
+    <div id="level" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('level')">➜</button><span class="nav-title">פלס</span></div>
+        <div class="content">
+            <button class="action-btn" id="sensorBtn" onclick="reqSensors()">הפעל חיישנים</button>
+            <div class="level-box">
+                <div style="position:absolute; top:50%; left:50%; width:10px; height:10px; background:rgba(255,255,255,0.5); transform:translate(-50%,-50%); border-radius:50%;"></div>
+                <div id="bubble" class="bubble"></div>
             </div>
-            <p id="levelData" style="margin-top:20px">X: 0° | Y: 0°</p>
+            <p id="levelVal" style="margin-top:20px">0°</p>
         </div>
     </div>
 
-    <div id="stopwatch" class="tool-overlay">
-        <div class="tool-nav"><button class="back-btn" onclick="closeTool('stopwatch')">➜</button><h3>סטופר</h3></div>
-        <div class="tool-body">
-            <div class="timer-display" id="sw-display">00:00:00</div>
-            <div class="timer-controls">
-                <button class="btn-start" onclick="startStopwatch()">התחל</button>
-                <button class="btn-stop" onclick="stopStopwatch()">עצור</button>
-                <button class="btn-reset" onclick="resetStopwatch()">איפוס</button>
+    <div id="compass" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('compass')">➜</button><span class="nav-title">מצפן</span></div>
+        <div class="content">
+            <button class="action-btn" id="compassBtn" onclick="reqSensors()">הפעל חיישנים</button>
+            <div id="compassDial" style="font-size: 8rem; transition: transform 0.2s;">🧭</div>
+            <h2 id="compassVal">0°</h2>
+        </div>
+    </div>
+
+    <div id="light" class="overlay" style="background: white;">
+        <div style="position: absolute; bottom: 50px; width: 100%; text-align: center;">
+            <button onclick="closeTool('light')" style="padding: 10px 30px; border-radius: 20px; border:none; background: #333; color: white;">כבה פנס</button>
+        </div>
+    </div>
+
+    <div id="stopwatch" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('stopwatch')">➜</button><span class="nav-title">סטופר</span></div>
+        <div class="content">
+            <div id="swDisplay" style="font-size: 4rem; font-variant-numeric: tabular-nums;">00:00</div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button class="action-btn" onclick="startSW()" style="background:#4CAF50">התחל</button>
+                <button class="action-btn" onclick="stopSW()" style="background:#f44336">עצור</button>
+                <button class="action-btn" onclick="resetSW()" style="background:#555">אפס</button>
             </div>
         </div>
     </div>
 
-    <div id="noise" class="tool-overlay">
-        <div class="tool-nav"><button class="back-btn" onclick="closeTool('noise')">➜</button><h3>מד רעש (dB)</h3></div>
-        <div class="tool-body">
-            <button class="permission-btn" id="mic-perm" onclick="startMicrophone()">אשר גישה למיקרופון</button>
-            <div style="height: 300px; width: 60px; background: #333; border-radius: 30px; display: flex; align-items: flex-end; overflow: hidden;">
-                <div id="noiseBar" class="noise-bar" style="height: 10%;"></div>
-            </div>
-            <p>עוצמת קול ויזואלית</p>
-        </div>
-    </div>
-
-    <div id="magnifier" class="tool-overlay">
-        <div class="tool-nav"><button class="back-btn" onclick="closeTool('magnifier')">➜</button><h3>זכוכית מגדלת</h3></div>
-        <div class="tool-body" style="padding:0; background:black;">
-            <video id="camera" autoplay playsinline style="width:100%; height:100%; object-fit:cover;"></video>
-        </div>
-    </div>
-
-    <div id="converter" class="tool-overlay">
-        <div class="tool-nav"><button class="back-btn" onclick="closeTool('converter')">➜</button><h3>ממיר (אינץ' / ס"מ)</h3></div>
-        <div class="tool-body">
-            <div class="converter-box">
-                <span class="label">סנטימטרים (cm)</span>
-                <input type="number" id="cmInput" oninput="convert('cm')">
-                
-                <span class="label" style="margin-top:20px;">אינצ'ים (inch)</span>
-                <input type="number" id="inchInput" oninput="convert('inch')">
+    <div id="noise" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('noise')">➜</button><span class="nav-title">מד רעש</span></div>
+        <div class="content">
+            <button class="action-btn" id="micBtn" onclick="initMic()">הפעל מיקרופון</button>
+            <div style="width:50px; height:300px; background:#333; border-radius:25px; overflow:hidden; display:flex; align-items:flex-end;">
+                <div id="noiseBar" style="width:100%; height:0%; background: linear-gradient(to top, #00ff88, #ffff00, #ff0000); transition: height 0.1s;"></div>
             </div>
         </div>
     </div>
 
-    <div id="notes" class="tool-overlay">
-        <div class="tool-nav"><button class="back-btn" onclick="closeTool('notes')">➜</button><h3>פתקים</h3></div>
-        <div class="tool-body" style="align-items: stretch; padding: 20px;">
-            <textarea id="notesArea" style="flex:1; background:transparent; border:none; color:white; font-size:1.2rem; resize:none; outline:none;" placeholder="כתוב כאן..."></textarea>
+    <div id="notes" class="overlay">
+        <div class="navbar"><button class="back-btn" onclick="closeTool('notes')">➜</button><span class="nav-title">פתקים</span></div>
+        <div class="content">
+            <textarea id="noteArea" style="height:100%; background: transparent; resize:none;" placeholder="כתוב כאן..."></textarea>
         </div>
-    </div>
-
-    <div id="light" class="tool-overlay" style="background:white;">
-        <button class="flashlight-btn-close" onclick="closeTool('light')">כבה פנס</button>
     </div>
 
 
     <script>
-        // --- SYSTEM & BACKGROUND ---
-        let currentBg = 1;
-        function changeBackground() {
-            currentBg++;
-            if(currentBg > 5) currentBg = 1;
-            document.getElementById('mainBody').className = 'bg-' + currentBg;
+        // --- CORE ---
+        let bgIdx = 1;
+        function toggleTheme() {
+            bgIdx = bgIdx >= 4 ? 1 : bgIdx + 1;
+            document.body.className = 'bg-' + bgIdx;
         }
 
         function openTool(id) {
-            document.getElementById(id).classList.add('open');
-            if(id === 'magnifier') startCamera();
-            if(id === 'notes') document.getElementById('notesArea').value = localStorage.getItem('notes') || '';
+            document.getElementById(id).classList.add('active');
+            // Init Specifics
+            if(id === 'mirror') startCam('mirrorVideo', 'user');
+            if(id === 'magnifier') startCam('magVideo', 'environment');
+            if(id === 'battery') initBattery();
+            if(id === 'ruler') drawRuler();
+            if(id === 'notes') document.getElementById('noteArea').value = localStorage.getItem('s_notes') || '';
         }
 
         function closeTool(id) {
-            document.getElementById(id).classList.remove('open');
-            if(id === 'magnifier') stopCamera();
-            if(id === 'noise') stopMicrophone();
-            if(id === 'stopwatch') stopStopwatch();
-            if(id === 'notes') localStorage.setItem('notes', document.getElementById('notesArea').value);
+            document.getElementById(id).classList.remove('active');
+            stopCam();
+            if(id === 'noise') stopMic();
+            if(id === 'notes') localStorage.setItem('s_notes', document.getElementById('noteArea').value);
         }
 
-        // --- SENSORS (COMPASS & LEVEL) ---
-        // Note: iOS requires explicit permission request on button click
-        function requestSensors() {
-            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                DeviceOrientationEvent.requestPermission()
-                    .then(response => {
-                        if (response === 'granted') {
-                            window.addEventListener('deviceorientation', handleOrientation);
-                            hideSensorBtns();
-                        } else {
-                            alert('נדרש אישור חיישנים');
-                        }
-                    })
-                    .catch(console.error);
-            } else {
-                // Non-iOS 13+ devices
-                window.addEventListener('deviceorientation', handleOrientation);
-                hideSensorBtns();
+        // --- CAMERA ---
+        let stream;
+        async function startCam(elemId, faceMode) {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: faceMode } });
+                document.getElementById(elemId).srcObject = stream;
+            } catch(e) { console.log(e); }
+        }
+        function stopCam() { if(stream) stream.getTracks().forEach(t=>t.stop()); }
+
+        // --- SENSORS ---
+        function reqSensors() {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission().then(r => {
+                    if(r==='granted') window.addEventListener('deviceorientation', handleMotion);
+                });
+            } else { window.addEventListener('deviceorientation', handleMotion); }
+            document.getElementById('sensorBtn').style.display='none';
+            document.getElementById('compassBtn').style.display='none';
+        }
+
+        function handleMotion(e) {
+            // Level
+            let x = Math.max(-110, Math.min(110, e.gamma * 2));
+            let y = Math.max(-110, Math.min(110, e.beta * 2));
+            document.getElementById('bubble').style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+            document.getElementById('levelVal').innerText = `${Math.round(e.beta)}°`;
+
+            // Compass
+            let c = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+            document.getElementById('compassDial').style.transform = `rotate(${-c}deg)`;
+            document.getElementById('compassVal').innerText = Math.round(c) + '°';
+        }
+
+        // --- BATTERY ---
+        function initBattery() {
+            if(navigator.getBattery) {
+                navigator.getBattery().then(bat => {
+                    updateBat(bat);
+                    bat.addEventListener('levelchange', ()=>updateBat(bat));
+                    bat.addEventListener('chargingchange', ()=>updateBat(bat));
+                });
+            } else { document.getElementById('batStatus').innerText = "לא נתמך בדפדפן זה"; }
+        }
+        function updateBat(b) {
+            let level = Math.round(b.level * 100);
+            document.getElementById('batLevel').style.height = level + '%';
+            document.getElementById('batText').innerText = level + '%';
+            document.getElementById('batStatus').innerText = b.charging ? "⚡ בטעינה" : "לא בטעינה";
+        }
+
+        // --- RULER ---
+        function drawRuler() {
+            const el = document.getElementById('rulerCanvas');
+            el.innerHTML = '';
+            // Approx 38px per cm (standard DPI varies, this is an estimate)
+            const pxPerCm = 38; 
+            const totalCm = Math.ceil(window.innerHeight / pxPerCm);
+            
+            for(let i=0; i<totalCm; i++) {
+                let d = document.createElement('div');
+                d.className = 'cm-mark';
+                d.style.top = (i * pxPerCm) + 'px';
+                el.appendChild(d);
+                
+                let num = document.createElement('div');
+                num.className = 'cm-num';
+                num.innerText = i;
+                num.style.top = (i * pxPerCm + 5) + 'px';
+                el.appendChild(num);
+
+                // mm marks
+                for(let m=1; m<10; m++) {
+                    let mm = document.createElement('div');
+                    mm.className = 'mm-mark';
+                    mm.style.top = (i * pxPerCm + (m * 3.8)) + 'px';
+                    el.appendChild(mm);
+                }
             }
         }
 
-        function hideSensorBtns() {
-            document.getElementById('compass-perm').style.display = 'none';
-            document.getElementById('level-perm').style.display = 'none';
-        }
-
-        function handleOrientation(e) {
-            // Compass
-            let compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
-            document.getElementById('compassRing').style.transform = `rotate(${-compass}deg)`;
-            document.getElementById('compassHeading').innerText = Math.round(compass) + "°";
-
-            // Level
-            let x = e.gamma; // Left/Right
-            let y = e.beta;  // Front/Back
-            
-            // Clamp for visual boundaries
-            let visualX = Math.max(-130, Math.min(130, x * 2.5));
-            let visualY = Math.max(-130, Math.min(130, y * 2.5));
-
-            const bubble = document.getElementById('levelBubble');
-            bubble.style.transform = `translate(calc(-50% + ${visualX}px), calc(-50% + ${visualY}px))`;
-            
-            document.getElementById('levelData').innerText = `X: ${Math.round(x)}° | Y: ${Math.round(y)}°`;
+        // --- TTS ---
+        function speakText() {
+            let txt = document.getElementById('ttsInput').value;
+            if(!txt) return;
+            let u = new SpeechSynthesisUtterance(txt);
+            u.lang = 'he-IL';
+            speechSynthesis.speak(u);
         }
 
         // --- STOPWATCH ---
-        let swInterval;
-        let swTime = 0;
-        
-        function startStopwatch() {
-            if(swInterval) return;
-            let startTime = Date.now() - swTime;
-            swInterval = setInterval(() => {
-                swTime = Date.now() - startTime;
-                let date = new Date(swTime);
-                let m = String(date.getUTCMinutes()).padStart(2, '0');
-                let s = String(date.getUTCSeconds()).padStart(2, '0');
-                let ms = String(Math.floor(date.getUTCMilliseconds() / 10)).padStart(2, '0');
-                document.getElementById('sw-display').innerText = `${m}:${s}:${ms}`;
-            }, 50);
-        }
-        
-        function stopStopwatch() {
-            clearInterval(swInterval);
-            swInterval = null;
-        }
-        
-        function resetStopwatch() {
-            stopStopwatch();
-            swTime = 0;
-            document.getElementById('sw-display').innerText = "00:00:00";
-        }
+        let swT, swI;
+        function startSW() { if(!swI) { let s = Date.now() - (swT || 0); swI = setInterval(()=>{ swT = Date.now() - s; 
+            document.getElementById('swDisplay').innerText = (swT/1000).toFixed(2); }, 30); } }
+        function stopSW() { clearInterval(swI); swI = null; }
+        function resetSW() { stopSW(); swT=0; document.getElementById('swDisplay').innerText = "00:00"; }
 
-        // --- NOISE METER ---
-        let audioContext, analyser, microphone, javascriptNode;
-        async function startMicrophone() {
+        // --- NOISE ---
+        let ac;
+        async function initMic() {
             try {
-                document.getElementById('mic-perm').style.display = 'none';
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioContext = new AudioContext();
-                analyser = audioContext.createAnalyser();
-                microphone = audioContext.createMediaStreamSource(stream);
-                javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
-
-                analyser.smoothingTimeConstant = 0.8;
-                analyser.fftSize = 1024;
-
-                microphone.connect(analyser);
-                analyser.connect(javascriptNode);
-                javascriptNode.connect(audioContext.destination);
-
-                javascriptNode.onaudioprocess = function() {
-                    var array = new Uint8Array(analyser.frequencyBinCount);
-                    analyser.getByteFrequencyData(array);
-                    var values = 0;
-                    var length = array.length;
-                    for (var i = 0; i < length; i++) { values += array[i]; }
-                    var average = values / length;
-                    
-                    // Visual logic
-                    let height = Math.min(100, average * 2); // Sensitivity amp
-                    document.getElementById('noiseBar').style.height = height + "%";
-                }
-            } catch(e) {
-                alert("גישה למיקרופון נדחתה או לא נתמכת");
-            }
+                let s = await navigator.mediaDevices.getUserMedia({audio:true});
+                ac = new AudioContext();
+                let src = ac.createMediaStreamSource(s);
+                let an = ac.createAnalyser();
+                let sc = ac.createScriptProcessor(2048,1,1);
+                src.connect(an); an.connect(sc); sc.connect(ac.destination);
+                sc.onaudioprocess = () => {
+                    let arr = new Uint8Array(an.frequencyBinCount);
+                    an.getByteFrequencyData(arr);
+                    let avg = arr.reduce((a,b)=>a+b) / arr.length;
+                    document.getElementById('noiseBar').style.height = (avg * 1.5) + '%';
+                };
+                document.getElementById('micBtn').style.display='none';
+            } catch(e){ alert('Microphone error'); }
         }
-        function stopMicrophone() {
-            if(audioContext) audioContext.close();
-        }
-
-        // --- MAGNIFIER ---
-        let videoStream;
-        async function startCamera() {
-            try {
-                videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-                document.getElementById('camera').srcObject = videoStream;
-            } catch (e) { console.error("Camera fail", e); }
-        }
-        function stopCamera() {
-            if(videoStream) videoStream.getTracks().forEach(track => track.stop());
-        }
-
-        // --- CONVERTER ---
-        function convert(type) {
-            let cm = document.getElementById('cmInput');
-            let inch = document.getElementById('inchInput');
-            if(type === 'cm') {
-                inch.value = (cm.value * 0.393701).toFixed(2);
-            } else {
-                cm.value = (inch.value * 2.54).toFixed(2);
-            }
-        }
+        function stopMic() { if(ac) ac.close(); }
 
     </script>
 </body>
-  </html>
+    </html>
